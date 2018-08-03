@@ -42,6 +42,8 @@ losses = []
 epochs = 100
 alpha = 0.01
 batch_size = 32
+momentum = 0.9
+velocity = 0
 for epoch in np.arange(0, epochs):
     epoch_loss = []
 
@@ -52,8 +54,10 @@ for epoch in np.arange(0, epochs):
         epoch_loss.append(np.sum(error ** 2))
 
         gradient = batchX.T.dot(error)
+        velocity = momentum * velocity - (alpha * gradient)
+        W += velocity
 
-        W += -alpha * gradient
+        # W += -alpha * gradient
 
     loss = np.average(epoch_loss)
     losses.append(loss)
